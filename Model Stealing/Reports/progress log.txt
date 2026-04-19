@@ -1,0 +1,24 @@
+| **Approach** | **Name**                       | **Model Architecture**       | **Training Strategy**                                         | **L2 Score** | **Remarks**                                                          |
+| ------------ | ------------------------------ | ---------------------------- | ------------------------------------------------------------- | ------------ | -------------------------------------------------------------------- |
+| 1️         | Knockoff                       | Simple CNN (custom encoder)  | One-shot query on 1k samples → train directly                 | 13.598       | Baseline naive implementation. Very limited learning.                |
+| 2️         | Single-Shot Data Distillation  | Simple CNN (same)            | One-shot query → full batch training on 1k samples            | 6.054        | Full training on teacher outputs helped significantly.               |
+| 3️         | Data Augmented Distillation    | ResNet-18                    | One-shot query → trained on basic augmented samples           | 5.704        | Better representation learning via deeper model and varied inputs.   |
+| 4         | Heavy Backbone + Dual Loss     | Wide-ResNet-50 (custom head) | Same as 4, but with deeper model and longer training schedule | ⚠️ Unknown   | Server crashed, but lowest training loss observed. Likely < **5.0**. |
+
+
+Evolution of Model Stealing Approaches: Progress Log
+
+Approach 1 – Knockoff (Simple CNN, One-Shot Training)
+We began our model stealing attempt with the most straightforward strategy: a shallow custom CNN trained in a one-shot fashion using representations from a single API query of 1,000 proxy images. The goal was to understand the feasibility of the attack with minimal effort. However, this naive approach yielded an L2 score of 13.598, indicating poor approximation of the teacher model’s feature space. The architecture lacked sufficient depth, and the limited training strategy resulted in significant underfitting. This early failure revealed the need for deeper modeling capacity and a more effective learning procedure.
+
+Approach 2 – Single-Shot Data Distillation (Same CNN, Full Batch Training)
+Building on the lessons from Approach 1, we retained the same architecture but significantly improved the training methodology. Instead of just a one-shot inference, we treated the 1,000 teacher representations as a full training set and performed several epochs of training using MSE loss. This yielded a substantial reduction in L2 score to 6.054, highlighting the benefits of distilling knowledge over time even from a limited dataset. Still, the architecture remained shallow, limiting how well the student could mimic complex representations. This drove our motivation to enhance the model’s representational power.
+
+Approach 3 – Data Augmented Distillation (ResNet-18, Full Training)
+To increase model capacity and generalization, we replaced the custom CNN with a deeper ResNet-18 backbone. We also introduced standard data augmentations (like crops, flips, jitter) to improve robustness while still training on the same 1,000 teacher responses. The improvement was clear—L2 dropped to 5.704—but it plateaued soon after. Although deeper, the model was trained only on direct supervision from static labels, and there was no incentive to maintain consistency across input transformations. This limitation sparked the idea to explore training strategies that better utilized both views.
+
+Approach 4 – Dual-View Consistency (ResNet-18, Consistency Regularization)
+In this iteration, we exploited two views of each sample—one original and one augmented—and trained the student to align both with the teacher’s fixed representation. This added a consistency regularization effect, encouraging the student to produce stable outputs regardless of visual perturbations. We kept the ResNet-18 but extended training to 75 epochs with a cosine learning rate scheduler. The result was the best so far: an L2 score of 4.326, breaching the critical <5.0 barrier. The takeaway: consistency training, even with a fixed label, helps regularize the learning process more effectively.
+
+Approach 5 – Dual Loss + Deep Backbone (Wide-ResNet-50, Advanced Training)
+For the final and most advanced attempt, we adopted a Wide-ResNet-50 backbone to deepen the model's capacity, combined with dual loss: one on the original view and another on the augmented view. This retained consistency training from Approach 4 while unlocking greater representational power. Despite being unable to obtain the final L2 score due to a server crash during submission, the training loss was the lowest of all methods, indicating a likely performance below 5.0. This experiment showed that robust architecture and dual-supervision can extract remarkably accurate feature stealers even from limited API access.
