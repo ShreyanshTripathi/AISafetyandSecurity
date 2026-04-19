@@ -1,0 +1,38 @@
+Curriculum-based or Mixed Adversarial Training
+
+It starts with clean training for several epochs (e.g. 10) and then introduce FGSM training gradually or mix clean and adversarial examples.
+
+RESULTS:-
+
+Epoch 1/25 - Clean Accuracy: 21.23%
+Epoch 2/25 - Clean Accuracy: 27.35%
+Epoch 3/25 - Clean Accuracy: 29.11%
+Epoch 4/25 - Clean Accuracy: 35.50%
+Epoch 5/25 - Clean Accuracy: 40.26%
+Epoch 6/25 - Clean Accuracy: 37.58%
+Epoch 7/25 - Clean Accuracy: 48.47%
+Epoch 8/25 - Clean Accuracy: 42.59%
+Epoch 9/25 - Clean Accuracy: 48.95%
+Epoch 10/25 - Clean Accuracy: 49.31%
+Epoch 11/25 - Clean Accuracy: 51.08%
+Epoch 12/25 - Clean Accuracy: 51.50%
+Epoch 13/25 - Clean Accuracy: 53.59%
+Epoch 14/25 - Clean Accuracy: 47.15%
+Epoch 15/25 - Clean Accuracy: 55.69%
+Epoch 16/25 - Clean Accuracy: 56.46%
+Epoch 17/25 - Clean Accuracy: 57.99%
+Epoch 18/25 - Clean Accuracy: 58.47%
+Epoch 19/25 - Clean Accuracy: 58.34%
+Epoch 20/25 - Clean Accuracy: 58.20%
+Epoch 21/25 - Clean Accuracy: 59.36%
+Epoch 22/25 - Clean Accuracy: 60.92%
+Epoch 23/25 - Clean Accuracy: 59.69%
+Epoch 24/25 - Clean Accuracy: 59.50%
+Epoch 25/25 - Clean Accuracy: 59.64%
+
+Final Clean Accuracy: 60.92%
+FGSM Accuracy: 27.83%
+PGD Accuracy: 27.82%
+Server response: {'detail': "Error during evaluation, e=HTTPException(status_code=400, detail='Model clean accuracy is too low.')"}
+
+[Done] exited with code=0 in 10520.802 seconds

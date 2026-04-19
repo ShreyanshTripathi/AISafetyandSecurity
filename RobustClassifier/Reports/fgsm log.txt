@@ -1,0 +1,11 @@
+Single-Step Adversarial Training
+
+From epoch 1 onward, every training sample is converted into a FGSM adversarial example. The model never sees clean examples during training.
+
+RESULTS:
+
+Final Clean Accuracy: 0.6065
+FGSM (epsilon=0.03) Adversarial Accuracy: 0.3924
+PGD (epsilon=0.03, iter=5) Adversarial Accuracy: 0.3767
+Server response: {'detail': "Error during evaluation, e=HTTPException(status_code=400, detail='Model clean accuracy is too low.')"}
+
